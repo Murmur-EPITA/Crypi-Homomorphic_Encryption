@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  ftp-server:
+    container_name: server
+    build: ./docker_FTP_server
+    ports:
+      - "21:21"
+      - "30000-30009:30000-30009"
+    volumes:
+      - ./volumes/server:/data
+    networks:
+      ftp-net:
+        ipv4_address: 192.168.125.2
+
+  ftp-client:
+    container_name: client
+    build: ./docker_client
+    volumes:
+      - ./volumes/client:/data
+    networks:
+      ftp-net:
+        ipv4_address: 192.168.125.3
+    command: tail -f /dev/null
+
+networks:
+  ftp-net:
+    ipam:
+      config:
+        - subnet: 192.168.125.0/29
+
