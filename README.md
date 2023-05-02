@@ -4,6 +4,9 @@
 docker
 docker-compose
 
+## Automatic script
+`./run.sh`
+
 ## Docker use
 
 ### Setup
