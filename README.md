@@ -36,8 +36,8 @@ These volumes are persistent, data in these directories won't be lost after cont
 ## Misc.
 
 ### Interactive FTP transfer.
-    - Run the containers as in `Setup` part.
-    - Interactively spawn a shell in the client container.
-    - `cd /data && echo -en "test\n" > test.txt` : create a file on host and in container.
-    - `lftp -u root,toortoor 192.168.125.2` : connect to FTP server from the other container.
-    - `put text.txt` : send the file to the /data directory of the FTP server container.
+    1. Run the containers as in `Setup` part.
+    2. Interactively spawn a shell in the client container.
+    3. `cd /data && echo -en "test\n" > test.txt` : create a file on host and in container.
+    4. `lftp -u root,toortoor 192.168.125.2` : connect to FTP server from the other container.
+    5. `put text.txt` : send the file to the /data directory of the FTP server container.
