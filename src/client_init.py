@@ -57,6 +57,9 @@ for row in data :
     # Toutes les données 
     enc_data_global.append(enc_val)
 
+
+
+
 # Compute the mean of the age and height columns
 final_vec_global = ts.ckks_vector(context, [0] * len(data[0]))
 final_vec_sick = ts.ckks_vector(context, [0] * len(data[0]))

@@ -24,25 +24,50 @@ def load_data(filename):
 #fonction pour les moyennes
 def stats_mean(tab):
     mean_male = tab.male.mean()
+    print(mean_male)
+    
     mean_age = tab.age.mean()
+    print(mean_age)
+    
     mean_education = tab.education.mean()
 
     mean_cigsperday = tab.cigsPerDay.mean()
+    print(mean_cigsperday)
+    
     mean_currentsmoker = tab.currentSmoker.mean()
+    print(mean_currentsmoker)
 
     mean_bpmeds = tab.BPMeds.mean()
+    print(mean_bpmeds)
+
     mean_prevalentstroke = tab.prevalentStroke.mean()
+    print(mean_prevalentstroke)
+    
     mean_prevalenthyp = tab.prevalentHyp.mean()
+    print(mean_prevalenthyp)
     mean_diabetes = tab.diabetes.mean()
+    print(mean_diabetes)
 
     mean_totchol = tab.totChol.mean()
-    mean_sysbp = tab.sysBP.mean()
-    mean_diabp = tab.diaBP.mean()
-    mean_bmi = tab.BMI.mean()
-    mean_heartrate = tab.heartRate.mean()
-    mean_glucose = tab.glucose.mean()
+    print(mean_totchol)
 
+    mean_sysbp = tab.sysBP.mean()
+    print(mean_sysbp)
+
+    mean_diabp = tab.diaBP.mean()
+    print(mean_diabp)
+
+    mean_bmi = tab.BMI.mean()
+    print(mean_bmi)
+
+    mean_heartrate = tab.heartRate.mean()
+    print(mean_heartrate)
+
+    mean_glucose = tab.glucose.mean()
+    print(mean_glucose)
+    
     mean_tenyearchd = tab.TenYearCHD.mean()
+    print(mean_tenyearchd)
 
     #calcul de l'écart-type
     #np.std(tab.cigsPerDay)
@@ -126,9 +151,10 @@ def stats_diag(tab):
     return 0
 
 
-donnees = load_data("../data/framingham_heart_disease_raw.csv")
+donnees = load_data("../data/data.csv")
+stats_mean(donnees)
 
 #print(stats_mean(donnees))
 #stats_plot(donnees)
 #stats_hist(donnees)
-stats_diag(donnees)
+#stats_diag(donnees)
