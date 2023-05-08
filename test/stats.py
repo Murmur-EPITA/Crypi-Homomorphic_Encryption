@@ -128,7 +128,7 @@ def stats_diag(tab):
 
 donnees = load_data("../data/framingham_heart_disease_raw.csv")
 
-#print(stats_mean(donnees))
-#stats_plot(donnees)
-#stats_hist(donnees)
+print(stats_mean(donnees))
+stats_plot(donnees)
+stats_hist(donnees)
 stats_diag(donnees)
