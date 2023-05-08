@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-
 #pour charger le fichier csv
 def load_data(filename):
     # Charger le fichier CSV dans un DataFrame pandas
@@ -127,7 +126,7 @@ def stats_diag(tab):
     return 0
 
 
-donnees = load_data("/home/celine/Bureau/cryptoprojet/data/framingham_heart_disease_raw.csv")
+donnees = load_data("../data/framingham_heart_disease_raw.csv")
 
 #print(stats_mean(donnees))
 #stats_plot(donnees)
