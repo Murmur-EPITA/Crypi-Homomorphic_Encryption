@@ -60,7 +60,6 @@ class PersonList:
             'TenYearCHD': [person.TenYearCHD for person in self.persons],
         }
         corr = pd.DataFrame(data).corr()
-        print(corr['TenYearCHD']['diaBP'])
         return {
             'mean': { key: mean(val) for key, val in data.items() },
             'min': { key: min(val) for key, val in data.items() },
@@ -75,10 +74,13 @@ class PersonList:
     
     @classmethod
     def from_csv(cls, csvPath: str):
+        '''
+        Return complete list, sick people list, and healthy people list
+        '''
         csv = pd.read_csv(csvPath)
         # Remove any rows with NaN values
         csv = csv.dropna()
-        persons = [Person( 
+        complete = [Person( 
                             row['male'],
                             row['age'],
                             row['education'],
@@ -96,6 +98,8 @@ class PersonList:
                             row['glucose'],
                             row['TenYearCHD'],
                         ) 
-                        for index, row in csv.iterrows()]
-        return cls(persons)
+                        for _, row in csv.iterrows()]
+        sick = [person for person in complete if person.TenYearCHD == 1]
+        healthy = [person for person in complete if person.TenYearCHD == 0]
+        return cls(complete), cls(sick), cls(healthy)
         
