@@ -1,5 +1,5 @@
 from statistics import mean, stdev, median
-from typing import Dict
+from typing import Dict, List
 import pandas as pd
 from json import dumps
 
@@ -23,6 +23,11 @@ class Person:
         self.heartRate = heartRate
         self.glucose = glucose
         self.TenYearCHD = TenYearCHD
+    
+    def to_list(self) -> List[float]:
+        return [self.male, self.age, self.education, self.currentSmoker, self.cigsPerDay,
+                 self.BPMeds, self.prevalentStroke, self.prevalentHyp, self.diabetes, self.totChol, 
+                 self.sysBP,self.diaBP,self.BMI,self.heartRate,self.glucose,self.TenYearCHD]
 
 class PersonList:
     def __init__(self, persons=[]):
@@ -31,6 +36,9 @@ class PersonList:
             self.stats = dumps(self.compute_stats(), indent=4)
         else:
             self.stats = {}
+
+    def to_list(self) -> List[List[float]]:
+        return [person.to_list() for person in self.persons]
 
     def compute_stats(self) -> Dict[str, Dict[str, float]]:
         data = {
