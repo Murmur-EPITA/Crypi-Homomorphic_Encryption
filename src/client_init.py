@@ -104,3 +104,33 @@ final_vec_health *= 1/len(enc_data_health)
 print("Final All: ", final_vec_global.decrypt())
 print("Final Sick: ", final_vec_sick.decrypt())
 print("Final Health: ", final_vec_health.decrypt())
+
+
+def enc_persons(personList) :
+    persons = personList.to_list()
+    enc_personList = []
+    for row in persons :
+        enc_person = ts.ckks_vector(context, row)
+        enc_personList.append(enc_person)
+    return enc_personList
+
+def send_context() :
+    # Transform public context
+    context_data = context.serialize(save_secret_key = False)
+    # send the context 
+
+def send_context() :
+    #FIXME
+    return
+
+def create_context() :
+    #FIXME
+    return
+
+def load_context() :
+    #FIXME
+    return
+
+def send_persons() :
+    #FIXME
+    return
