@@ -1,40 +1,12 @@
 #!/bin/python
 
 import csv
+import base64
 import tenseal as ts
 
 # Load the CSV file into memory
-filename = "./data/data.csv"
-with open(filename, "r") as csvfile:
-    reader = csv.DictReader(csvfile)
-    
-    # To skip first line that contains column names
-    next(reader)
-    data = []
+context = None
 
-    # Tupple list creation
-    for row in reader:
-        skip = False
-        for key, value in row.items():
-            if (value == 'NA'):
-                skip = True
-        if (not skip):
-            data.append([float(row["male"]), \
-                        float(row["age"]), \
-                        float(row["currentSmoker"]), \
-                        float(row["cigsPerDay"]), \
-                        float(row["BPMeds"]), \
-                        float(row["prevalentStroke"]), \
-                        float(row["prevalentHyp"]), \
-                        float(row["diabetes"]), \
-                        float(row["totChol"]), \
-                        float(row["sysBP"]), \
-                        float(row["diaBP"]), \
-                        float(row["BMI"]), \
-                        float(row["heartRate"]), \
-                        float(row["glucose"]), \
-                        float(row["TenYearCHD"]), \
-                    ])
 '''
 # Initialize a context and a plaintext encoderts
 context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=8192, coeff_mod_bit_sizes=[60, 40, 40, 60], encryption_type=ts.ENCRYPTION_TYPE.SYMMETRIC)
@@ -46,7 +18,6 @@ context.global_scale = 2**40
 with open('context_data.bin', 'wb') as f:
     context_data = context.serialize(save_secret_key = True)
     f.write(context_data)
-'''    
 
 
 # Load the data from file
@@ -107,7 +78,7 @@ final_vec_health *= 1/len(enc_data_health)
 print("Final All: ", final_vec_global.decrypt())
 print("Final Sick: ", final_vec_sick.decrypt())
 print("Final Health: ", final_vec_health.decrypt())
-
+'''
 
 def enc_persons(personList) :
     persons = personList.to_list()
@@ -117,23 +88,34 @@ def enc_persons(personList) :
         enc_personList.append(enc_person)
     return enc_personList
 
-def send_context() :
-    # Transform public context
-    context_data = context.serialize(save_secret_key = False)
-    # send the context 
+def init_context(privkeyPath = None) :
+    # Create key files
+    if (not privkeyPath):
 
-def send_context() :
-    #FIXME
-    return
+        # Initialize a context
+        context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=8192, coeff_mod_bit_sizes=[6, 40, 40, 60], encryption_type=ts.ENCRYPTION_TYPE.SYMMETRIC)
 
-def create_context() :
-    #FIXME
-    return
+        context.generate_galois_keys()
+        context.global_scale = 2**40
 
-def load_context() :
-    #FIXME
-    return
+        # write context data
+        with open('./data/keys/privContext.bin', 'wb') as f:
+            context_data = context.serialize(save_secret_key = True)
+            f.write(context_data)
+    else :
+        # Load the data from file
+        with open(privkeyPath, 'rb') as f:
+            context_data = f.read()
+            context = ts.enc_context.Context.load(context_data)
+    return context
 
-def send_persons() :
-    #FIXME
-    return
+
+def write_persons(personList, filename) :
+    # Encrypt person list
+    enc_personlist = enc_persons(personList)
+
+    # Encoding encrypt vector to add a separator in file
+    with open("./data/cipher/" + filename + ".b64", 'wb') as f:
+        for enc_person in enc_personlist:
+            b64_person = base64.b64encode(enc_person.serialize())
+            f.write(b64_person + b"\n")
