@@ -154,7 +154,7 @@ def stats_diag(tab):
 donnees = load_data("../data/data.csv")
 stats_mean(donnees)
 
-#print(stats_mean(donnees))
-#stats_plot(donnees)
-#stats_hist(donnees)
-#stats_diag(donnees)
+print(stats_mean(donnees))
+stats_plot(donnees)
+stats_hist(donnees)
+stats_diag(donnees)
