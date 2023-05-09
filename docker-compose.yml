@@ -8,7 +8,7 @@ services:
       - "21:21"
       - "30000-30009:30000-30009"
     volumes:
-      - ./volumes/server:/data
+      - ./data/server:/data
     networks:
       ftp-net:
         ipv4_address: 192.168.125.2
@@ -17,7 +17,7 @@ services:
     container_name: client
     build: ./docker_client
     volumes:
-      - ./volumes/client:/data
+      - ./data/client:/data
     networks:
       ftp-net:
         ipv4_address: 192.168.125.3

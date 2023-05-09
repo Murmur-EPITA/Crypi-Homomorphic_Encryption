@@ -3,7 +3,7 @@
 CONTEXT="/data/context.bin"
 ENC_DATA="/data/enc_data.b64"
 
-vsftpd /etc/vsftpd/vsftpd2.conf &
+vsftpd /etc/vsftpd.conf &
 
 while true
 do

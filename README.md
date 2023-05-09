@@ -23,13 +23,14 @@ docker-compose
 
 ### To know
 
+Tenseal pip package is not available on Alpine, so containers are Ubuntu based.
 Both containers are in 192.168.125.0/29 subnet.  
 Server is 192.168.125.2 and client is 192.168.125.3.  
 192.168.125.1 is reserved for the host's virtual bridge network interface used to manage
 the network routing between the containers and the host system.
 
-___./volumes/server___ on `host` is linked to ___/data___ directory from `server` container.  
-___./volumes/client___ on `host` is linked to ___/data___ directory from `client` container.
+___./data/server___ on `host` is linked to ___/data___ directory from `server` container.  
+___./data/client___ on `host` is linked to ___/data___ directory from `client` container.
 
 These volumes are persistent, data in these directories won't be lost after containers shutdown.
 

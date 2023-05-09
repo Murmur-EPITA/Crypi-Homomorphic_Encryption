@@ -1,12 +1,17 @@
-FROM alpine:latest
+FROM ubuntu
 
-RUN apk add --no-cache vsftpd
-
-COPY vsftpd.conf /etc/vsftpd/vsftpd2.conf
 COPY run_vsftpd_and_check_if_files.sh /
+COPY requirements.txt /
+
+RUN apt-get update && \
+    apt-get install -y vsftpd python3 python3-pip && \
+        pip3 install --no-cache-dir -r /requirements.txt && \
+            apt-get clean && rm -rf /var/lib/apt/lists/*
+
+COPY vsftpd.conf /etc/vsftpd.conf
 
 EXPOSE 20 21 21100-21110
 
 RUN echo "root:toortoor" | chpasswd
-CMD sh /run_vsftpd_and_check_if_files.sh
+CMD bash /run_vsftpd_and_check_if_files.sh
 

@@ -9,8 +9,8 @@ PASS="toortoor"
 LOCALFILEPATH="./data/$FILENAME"
 REMOTEFILEPATH="/data/$FILENAME"
 FTP_CLIENT_CONTAINER="client"
-CLIENTVOLUME="./volumes/client"
-SERVERVOLUME="./volumes/server"
+CLIENTVOLUME="./data/client"
+SERVERVOLUME="./data/server"
 
 # Check if data file exists in ./data directory.
 [ ! -f "$LOCALFILEPATH" ] && echo "Missing $LOCALFILEPATH file. Aborting." && exit 1
