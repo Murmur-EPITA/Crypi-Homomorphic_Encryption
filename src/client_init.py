@@ -88,19 +88,23 @@ def enc_persons(personList) :
         enc_personList.append(enc_person)
     return enc_personList
 
-def init_context(privkeyPath = None) :
+def init_context(privkeyPath=None, publickeyPath=None) :
     # Create key files
-    if (not privkeyPath):
-
+    if (not privkeyPath) or (not publickeyPath):
         # Initialize a context
         context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=8192, coeff_mod_bit_sizes=[6, 40, 40, 60], encryption_type=ts.ENCRYPTION_TYPE.SYMMETRIC)
 
         context.generate_galois_keys()
         context.global_scale = 2**40
 
-        # write context data
+        # write private context data
         with open('./data/keys/privContext.bin', 'wb') as f:
             context_data = context.serialize(save_secret_key = True)
+            f.write(context_data)
+
+        # write public context data
+        with open('./data/keys/pubContext.bin', 'wb') as f:
+            context_data = context.serialize(save_secret_key = False)
             f.write(context_data)
     else :
         # Load the data from file
