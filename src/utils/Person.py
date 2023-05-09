@@ -151,6 +151,30 @@ class PersonList:
         plt.ylabel("Taux de cholestérol")
         plt.show()
         return 0
+    
+
+
+    def stats_hist(self):
+
+        tab = self.tab
+        my_tab = [tab['age'], tab['education'], tab['cigsPerDay'], tab['BPMeds'], tab['totChol'], tab['sysBP'], tab['diaBP'], tab['BMI'], tab['heartRate'], tab['glucose']]
+        
+        plt.figure(figsize=(12, 10))
+
+        colonnes = ["age", "education", "cigsPerDay", "totChol", "sysBP", "diaBP", "BMI", "heartRate", "glucose"] # Liste de noms correspondant à chaque histogramme
+
+        for i, data in enumerate(my_tab):
+            color_map = cm.get_cmap('tab10')  # Crée une nouvelle carte de couleurs pour chaque histogramme
+            color = color_map(i % 10)  # Utilise un index différent pour chaque histogramme
+            plt.hist(data, bins=10, range=(0, 500), align="mid", rwidth=0.9, color=color, edgecolor="black", label=f'Boîte {i+1}')
+
+        plt.title("Histogramme des stats")
+        plt.xlabel("variables")
+        plt.ylabel("Fréquence")
+        plt.legend(colonnes)
+        plt.show()
+
+        return 0
 
 
     
