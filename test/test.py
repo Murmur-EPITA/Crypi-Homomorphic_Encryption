@@ -28,6 +28,8 @@ for vec in vecs :
     print(len(vecs))
     vec_bytes = base64.b64decode(vec)
     enc_list.append(ts.tensors.ckksvector.CKKSVector.load(context, vec_bytes))
+for val in enc_list[0] :
+    print(val)
 
 print(enc_list[0].decrypt())
 print(enc_list[1].decrypt())
