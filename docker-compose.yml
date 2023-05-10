@@ -3,7 +3,7 @@ version: '3'
 services:
   ftp-server:
     container_name: server
-    build: ./docker_FTP_server
+    build: ./docker_server
     ports:
       - "21:21"
       - "30000-30009:30000-30009"
