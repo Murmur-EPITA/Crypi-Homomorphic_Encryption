@@ -24,19 +24,28 @@ def read_file(filepath):
         enc_list.append(ts.tensors.ckksvector.CKKSVector.load(context,  vec_bytes))
     return enc_list
 
-def mean(enc_list):
-    mean_vec = ts.ckks_vector(context, [0] * len(data[0]))
+def mean(enc_list, filename):
+    mean_vec = ts.ckks_vector(context, [0] * len(enc_list.shape[0]))
     for enc_row in enc_list:
         mean_vec += enc_row
     mean_vec *= 1/len(enc_list)
+    # We add mean to the file to notify the result it represent
+    write_enc(mean_vec, "mean_" + filename)
 
-    return mean_vec
+def write_enc(enc_vec, filename):
+    with open("./data/" + filename, 'wb') as f:
+        b64_enc_vec = base64.b64encode(enc_vec.serialize())
+        f.write(b64_enc_vec)
 
 def main(arg1, arg2):
     load_context(arg1)
     enc_list = read_file(arg2)
-    return
 
+    # We calculate the mean of each column And write result in b64 file
+    mean(enc_list, arg2)
+
+    
+    return
 
 
 if __name__ == '__main__':
