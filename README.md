@@ -1,9 +1,5 @@
 # **Project 1: Secure Statistics with Homomorphic Encryption**
 ## EPITA SRS 2024
-angel.bochenko | 
-celine-gisele.mafetgo-malego | 
-julien.wirth | 
-mohamed-badreddine.zouhair
 
 ## Architecture
 .  
