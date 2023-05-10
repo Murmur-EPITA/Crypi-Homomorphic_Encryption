@@ -1,4 +1,43 @@
-# **cryptoProjet**
+# **Project 1: Secure Statistics with Homomorphic Encryption**
+## EPITA SRS 2024
+angel.bochenko
+celine-gisele.mafetgo-malego
+julien.wirth
+mohamed-badreddine.zouhair
+
+## Architecture
+.
+├── data
+│   ├── client `/data dir of client container`
+│   ├── framingham_heart_disease_raw.csv `clear data`
+│   └── server `/data dir of server container`
+├── docker_client `client docker files`
+│   ├── Dockerfile
+│   └── requirements.txt
+├── docker-compose.yml
+├── docker_server `client docker files`
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   ├── run_vsftpd_and_check_if_files.sh `run ftp server and task to check for data files presence`
+│   └── vsftpd.conf `ftp server poor configuration`
+├── README.md `:^)`
+├── run.sh `automation script to run`
+├── src `python source files distributed to containers`
+│   ├── client_init.py
+│   ├── client_result.py
+│   ├── __init__.py
+│   ├── requirements.txt
+│   ├── server_compute.py
+│   └── utils
+│       ├── __init__.py
+│       └── Person.py
+
+## Overall
+Demonstration of homomorphic encryption using tenseal for Python and shell for automation.  
+Scripts are meant to be used with the docker containers provided. If you run it on your host,
+it will break because of paths, python dependencies, etc.  
+Expected result is that statistics results made on encrypted data are the same or almost the
+same as the ones made on clear data, while keeping data secret from the server.
 
 ## Requirements
 docker
@@ -6,6 +45,13 @@ docker-compose
 
 ## Automatic script
 `./run.sh`
+It builds containers, encrypts "data/framingham_heart_disease_raw.csv" in client container,
+sends encrypted file to FTP server container, the server computes means on encrypted data,
+client takes the result of computation, and finally decrypts it and saves it in 
+___./data/decrypted_results.csv___.  
+
+Make sure that ___./data/client___ and ___./data/server___ are empty before running `./run.sh`
+again. Otherwise, decrypted means would not be ok.
 
 ## Docker use
 
