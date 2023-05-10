@@ -25,11 +25,9 @@ mohamed-badreddine.zouhair
 ├── src/ `python source files distributed to containers`  
 │   ├── client_init.py  
 │   ├── client_result.py  
-│   ├── __init__.py  
 │   ├── requirements.txt  
 │   ├── server_compute.py  
 │   └── utils/  
-│       ├── __init__.py  
 │       └── Person.py  
 
 ## Overall
