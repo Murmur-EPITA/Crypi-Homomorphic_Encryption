@@ -1,5 +1,4 @@
 #!/bin/sh
-set -e
 
 FILENAME="framingham_heart_disease_raw.csv"
 

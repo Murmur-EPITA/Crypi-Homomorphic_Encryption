@@ -3,7 +3,7 @@
 import csv
 import base64
 import tenseal as ts
-from os import makedirs
+from pathlib import Path
 from utils.Person import *
 
 
@@ -24,8 +24,8 @@ def init_context(privkeyPath=None, publickeyPath=None):
         context.generate_galois_keys()
         context.global_scale = 2**20
 
-        keysPath = "/data/keys"
-        makedirs(keysPath, exist_ok=True)
+        keysPath = "/data/keys/"
+        Path(keysPath).mkdir(parents=True, exist_ok=True)
 
         # write private context data
         with open(keysPath+'/privContext.bin', 'wb') as f:
@@ -49,7 +49,7 @@ def write_persons(personList, context, filename):
     enc_personlist = enc_persons(personList, context)
 
     cipherPath = "/data/cipher/"
-    makedirs(cipherPath, exist_ok=True)
+    Path(cipherPath).mkdir(parents=True, exist_ok=True)
 
     # Encoding encrypt vector to add a separator in file
     with open(cipherPath + filename + ".b64", 'wb') as f:

@@ -1,4 +1,4 @@
-from os import makedirs
+from pathlib import Path
 import argparse
 import base64
 import tenseal as ts
@@ -32,7 +32,7 @@ def mean(enc_list, filename):
 
 def write_enc(enc_vec, filename):
     resultsPath = "/data/results/"
-    makedirs(resultsPath, exist_ok=True)
+    Path(resultsPath).mkdir(parents=True, exist_ok=True)
     with open(resultsPath + filename, 'wb') as f:
         b64_enc_vec = base64.b64encode(enc_vec.serialize())
         f.write(b64_enc_vec)
