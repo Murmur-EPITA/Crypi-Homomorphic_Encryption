@@ -7,28 +7,28 @@ mohamed-badreddine.zouhair
 
 ## Architecture
 .  
-├── data  
-│   ├── client `/data dir of client container`  
+├── data/  
+│   ├── client/ `/data dir of client container`  
 │   ├── framingham_heart_disease_raw.csv `clear data`  
-│   └── server `/data dir of server container`  
-├── docker_client `client docker files`  
+│   └── server/ `/data dir of server container`  
+├── docker_client/ `client docker files`  
 │   ├── Dockerfile  
 │   └── requirements.txt  
 ├── docker-compose.yml  
-├── docker_server `client docker files`  
+├── docker_server/ `client docker files`  
 │   ├── Dockerfile  
 │   ├── requirements.txt  
 │   ├── run_vsftpd_and_check_if_files.sh `run ftp server and task to check for data files presence`  
 │   └── vsftpd.conf `ftp server poor configuration`  
 ├── README.md `:^)`  
 ├── run.sh `automation script to run`  
-├── src `python source files distributed to containers`  
+├── src/ `python source files distributed to containers`  
 │   ├── client_init.py  
 │   ├── client_result.py  
 │   ├── __init__.py  
 │   ├── requirements.txt  
 │   ├── server_compute.py  
-│   └── utils  
+│   └── utils/  
 │       ├── __init__.py  
 │       └── Person.py  
 
