@@ -25,8 +25,10 @@ mohamed-badreddine.zouhair
 ├── src/ `python source files distributed to containers`  
 │   ├── client_init.py  
 │   ├── client_result.py  
+│   ├── decrypted_results.csv `used in stats.py, it's what you should have in data/results after ./run.sh`  
 │   ├── requirements.txt  
 │   ├── server_compute.py  
+│   ├── stats.py `only python file to execute on host to check means values`  
 │   └── utils/  
 │       └── Person.py  
 
@@ -50,6 +52,12 @@ ___./data/decrypted_results.csv___.
 
 Make sure that ___./data/client___ and ___./data/server___ are empty before running `./run.sh`
 again. Otherwise, decrypted means would not be ok.
+
+## Check statistic results difference clear VS encrypted
+1. `pip install -r src/requirements.txt` at the root of the repo
+2. `python3 stats.py` to see exact values in the terminal and a graphical representation of them  
+
+___./src/stats.py___ is the only source file that has to be executed on host machine.
 
 ## Docker use
 
