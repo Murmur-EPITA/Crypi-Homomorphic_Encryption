@@ -10,7 +10,7 @@ def load_context(filepath):
     return context
 
 def read_file(filename, context):
-    with open('/data/results' + filename, 'rb') as f:
+    with open('/data/results/' + filename, 'rb') as f:
         vec_data = f.read()
         vec_bytes = base64.b64decode(vec_data)
         enc_vec = ts.tensors.ckksvector.CKKSVector.load(context, vec_bytes)
@@ -19,6 +19,7 @@ def read_file(filename, context):
 def main(arg1, arg2):
     context = load_context(arg1)
     enc_vec = read_file(arg2, context)
+    print(enc_vec.decrypt())
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

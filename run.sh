@@ -74,11 +74,14 @@ echo "Client decrypts results file..."
 docker exec $FTP_CLIENT_CONTAINER python3 /python_src/client_result.py $CLIENTPRIVCONTEXTFILEPATH /mean_enc_data.b64
 echo "OK"
 
-
-# Shutdown the containers.
-echo "Shutting down containers..."
-docker-compose down
-echo "OK"
+if [ "$1" != "--stay-up" ]; then
+    # Shutdown the containers.
+    echo "Shutting down containers..."
+    docker-compose down
+    echo "OK"
+else
+    echo "Containers are still running. Read README.md if you want to stop them."
+fi
 
 # Compare statistics results between clear data and encrypted data.
 if diff "$CLIENTVOLUME" "$SERVERVOLUME" >/dev/null ; then
