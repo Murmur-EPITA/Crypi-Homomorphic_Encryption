@@ -5,41 +5,30 @@ import numpy as np
 
 complete, malades, nonmalades = PersonList.from_csv("../data/framingham_heart_disease_raw.csv")
 #print(len(complete.persons), "=", len(nonmalades.persons), "+", len(malades.persons))
-#print(complete.persons)
+
+""""
+print("complete_cho", complete.stats['mean']['totChol'])
+print("malades", malades.stats['mean']['totChol'])
+print("non-malades", nonmalades.stats['mean']['totChol'])
+
+print("complete_cig", complete.stats['mean']['cigsPerDay'])
+print("malades", malades.stats['mean']['cigsPerDay'])
+print("non-malades", nonmalades.stats['mean']['cigsPerDay'])
+"""
+print("complete_age", complete.stats['mean']['heartRate'])
+print("malades", malades.stats['mean']['heartRate'])
+print("non-malades", nonmalades.stats['mean']['heartRate'])
 
 #complete.stats_plot()
 #malades.stats_plot()
 #nonmalades.stats_plot()
+
 #complete.plot_cholesterol_age_histogram()
-complete.stats_hist()
+#complete.stats_hist()
+#complete.totchol_malade_histogram()
+#complete.cig_malade_histogram()
 
-
-#fonction pour diagramme à barres utilisées pour des variables nominales ou catégorielles
-""""
-def stats_bar(tab):
-    plt.figure(figsize=(12, 10))
-
-    columns = ["male", "currentSmoker", "BPMeds", "prevalentStroke", "prevalentHyp", "diabetes", "TenYearCHD"]
-    num_columns = len(columns)
-    num_subplots = len(tab)
-
-    bar_width = 0.8 / num_columns
-    index = np.arange(num_subplots)
-
-    color_map = plt.cm.get_cmap('tab10')
-
-    for i, data in enumerate(tab):
-        color = color_map(i / num_subplots)
-        for j in range(num_columns):
-            plt.bar(index[i] + (j - (num_columns // 2)) * bar_width, data[j], width=bar_width, color=color, edgecolor="black")
-
-    plt.title("Diagramme à barres")
-    plt.xlabel("Sous-tableau")
-    plt.ylabel("Valeurs")
-    plt.xticks(index, [])
-    plt.xticks(ticks=index, labels=columns)  # Utilise set_xticks et set_xticklabels
-    plt.legend(columns)  # Ajoutez des légendes si nécessaire
-    plt.show()
-
-    return 0
-"""
+#complete.age_malade_histogram()
+#complete.glucose_malade_histogram()
+#complete.bmi_malade_histogram()
+complete.heartRate_malade_histogram()
