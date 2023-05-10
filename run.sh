@@ -54,13 +54,11 @@ echo "Waiting for the server to compute statistics on encrypted data..."
 computationIsOver=false
 while ! $computationIsOver
 do
-    echo "wait"
     docker exec $FTP_SERVER_CONTAINER test -f "$SERVERRESULTFILEPATH"
     if [ $? -eq 0 ]; then
         computationIsOver=true
         echo "OK"
     fi
-    echo "wait"
     sleep 2
 done
 # Client can get the results file
