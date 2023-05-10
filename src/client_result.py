@@ -1,6 +1,8 @@
 import tenseal as ts
 import argparse
 import base64
+from json import dumps
+from csv import writer
 
 def load_context(filepath):
     # Load the data from file
@@ -19,7 +21,11 @@ def read_file(filename, context):
 def main(arg1, arg2):
     context = load_context(arg1)
     enc_vec = read_file(arg2, context)
-    print(enc_vec.decrypt())
+    lol = enc_vec.decrypt()
+    print("Decrypted means: ", lol)
+    with open("/data/decrypted_results.csv", 'w') as f:
+        write = writer(f, delimiter=',')
+        write.writerow(lol)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
