@@ -1,9 +1,9 @@
 from statistics import mean, stdev, median
 from typing import Dict, List
 import pandas as pd
-from json import dumps
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+import numpy as np
 
 class Person:
     def __init__(self, male, age, education, currentSmoker, cigsPerDay,
@@ -35,7 +35,7 @@ class PersonList:
     def __init__(self, persons=[]):
         self.persons = persons
         if self.persons != []:
-            self.stats = dumps(self.compute_stats(), indent=4)
+            self.stats = self.compute_stats()
         else:
             self.stats = {}
         self.tab =  self.create_tab()
@@ -138,8 +138,7 @@ class PersonList:
         plt.show()
         return bp
     
-    #histogramme du taux de cholesterole en focntion de l'age on peut en faire plusieur sortes c'est juste un exemple
-    #mais voilà un histogramme
+    #histogramme du taux de cholesterole en fonction de l'age on peut en faire plusieur sortes c'est juste un exemple
     def plot_cholesterol_age_histogram(self):
         ages = self.tab['age']
         cholesterol = self.tab['totChol']
@@ -151,9 +150,164 @@ class PersonList:
         plt.ylabel("Taux de cholestérol")
         plt.show()
         return 0
+
+
+
+    #diagrammes à barres cigarettes par jour
+    def cig_malade_histogram(self):
+        malades = self.tab['TenYearCHD']
+        cigarettes = self.tab['cigsPerDay']
+
+        malades_0 = [self.tab['cigsPerDay'][int(i)] for i, malade in enumerate(self.tab['TenYearCHD']) if malade == 0]
+        malades_1 = [self.tab['cigsPerDay'][int(i)] for i, malade in enumerate(self.tab['TenYearCHD']) if malade == 1]
+
+        avg_cigarette_0 = np.mean(malades_0)  # Moyenne cigarettes fumées pour les non-malades
+        avg_cigarette_1 = np.mean(malades_1)  # Moyenne cigarettes  fumées  pour les malades
+
+        cig_all = pd.Series(cigarettes)
+        avg_cigarette = cig_all.mean()
+
+
+        plt.figure(figsize=(10, 7))
+        plt.bar([0, 1, 2], [avg_cigarette_0, avg_cigarette_1, avg_cigarette], color=['b', 'r', 'y'])
+        plt.xticks([0, 1, 2], ['Non-malades', 'Malades', 'everybody'])
+        plt.title("Moyenne de cigarettes fumées par jour selon la catégorie malade ou non")
+        plt.xlabel("10 year risk of coronary heart disease")
+        plt.ylabel("Moyenne de cigarettes fumées par jour")
+        plt.show()
+        return 0
+      
+
+    #diagramme à barre moyenne taux cholesterol en fonct malades, non
+    def totchol_malade_histogram(self):
+        malades = self.tab['TenYearCHD']
+        cholesterol = self.tab['totChol']
+
+        malades_0 = [self.tab['totChol'][int(i)] for i, malade in enumerate(self.tab['TenYearCHD']) if malade == 0]
+
+        malades_1 = [self.tab['totChol'][int(i)] for i, malade in enumerate(self.tab['TenYearCHD']) if malade == 1]
+
+        avg_cholesterol_0 = np.mean(malades_0)  # Moyenne du taux de cholestérol pour les non-malades
+        avg_cholesterol_1 = np.mean(malades_1)  # Moyenne du taux de cholestérol pour les malades
+
+        
+        cholesterol_all = pd.Series(cholesterol)
+        avg_cholesterol = cholesterol_all.mean()
+
+        plt.figure(figsize=(10, 7))
+        plt.bar([0, 1, 2], [avg_cholesterol_0, avg_cholesterol_1, avg_cholesterol], color=['b', 'r', 'y'])
+        plt.xticks([0, 1, 2], ['Non-malades', 'Malades', 'everybody'])
+        plt.title("Moyenne du taux de cholestérol selon la catégorie malade ou non")
+        plt.xlabel("10 year risk of coronary heart disease")
+        plt.ylabel("Moyenne du taux de cholestérol")
+        plt.show()
+        return 0
+
+
+    #diagramme à barre moyenne age en fonct malades, non
+    def age_malade_histogram(self):
+        malades = self.tab['TenYearCHD']
+        age = self.tab['age']
+
+        malades_0 = [self.tab['age'][int(i)] for i, malade in enumerate(self.tab['TenYearCHD']) if malade == 0]
+
+        malades_1 = [self.tab['age'][int(i)] for i, malade in enumerate(self.tab['TenYearCHD']) if malade == 1]
+
+        avg_age_0 = np.mean(malades_0)  # Moyenne du taux de cholestérol pour les non-malades
+        avg_age_1 = np.mean(malades_1)  # Moyenne du taux de cholestérol pour les malades
+
+        
+        age_all = pd.Series(age)
+        avg_age = age_all.mean()
+
+        plt.figure(figsize=(10, 7))
+        plt.bar([0, 1, 2], [avg_age_0, avg_age_1, avg_age], color=['b', 'r', 'y'])
+        plt.xticks([0, 1, 2], ['Non-malades', 'Malades', 'everybody'])
+        plt.title("Moyenne des ages l selon la catégorie malade ou non")
+        plt.xlabel("10 year risk of coronary heart disease")
+        plt.ylabel("Moyenne des ages")
+        plt.show()
+        return 0
     
 
+    #diagramme à barre moyenne taux glucose en fonct malades, non
+    def glucose_malade_histogram(self):
+        malades = self.tab['TenYearCHD']
+        glucose = self.tab['glucose']
 
+        malades_0 = [self.tab['glucose'][int(i)] for i, malade in enumerate(self.tab['TenYearCHD']) if malade == 0]
+
+        malades_1 = [self.tab['glucose'][int(i)] for i, malade in enumerate(self.tab['TenYearCHD']) if malade == 1]
+
+        avg_glucose_0 = np.mean(malades_0)  # Moyenne du taux de cholestérol pour les non-malades
+        avg_glucose_1 = np.mean(malades_1)  # Moyenne du taux de cholestérol pour les malades
+
+        
+        glucose_all = pd.Series(glucose)
+        avg_glucose = glucose_all.mean()
+
+        plt.figure(figsize=(10, 7))
+        plt.bar([0, 1, 2], [avg_glucose_0, avg_glucose_1, avg_glucose], color=['b', 'r', 'y'])
+        plt.xticks([0, 1, 2], ['Non-malades', 'Malades', 'everybody'])
+        plt.title("Moyenne du taux de glucose selon la catégorie malade ou non")
+        plt.xlabel("10 year risk of coronary heart disease")
+        plt.ylabel("Moyenne du taux de glucose")
+        plt.show()
+        return 0
+    
+    #diagramme à barre moyenne bmi en fonct malades, non
+    def bmi_malade_histogram(self):
+        malades = self.tab['TenYearCHD']
+        bmi = self.tab['BMI']
+
+        malades_0 = [self.tab['BMI'][int(i)] for i, malade in enumerate(self.tab['TenYearCHD']) if malade == 0]
+
+        malades_1 = [self.tab['BMI'][int(i)] for i, malade in enumerate(self.tab['TenYearCHD']) if malade == 1]
+
+        avg_bmi_0 = np.mean(malades_0)  # Moyenne du taux de cholestérol pour les non-malades
+        avg_bmi_1 = np.mean(malades_1)  # Moyenne du taux de cholestérol pour les malades
+
+        
+        bmi_all = pd.Series(bmi)
+        avg_bmi= bmi_all.mean()
+
+        plt.figure(figsize=(10, 7))
+        plt.bar([0, 1, 2], [avg_bmi_0, avg_bmi_1, avg_bmi], color=['b', 'r', 'y'])
+        plt.xticks([0, 1, 2], ['Non-malades', 'Malades', 'everybody'])
+        plt.title("Moyenne du taux de bmi selon la catégorie malade ou non")
+        plt.xlabel("10 year risk of coronary heart disease")
+        plt.ylabel("Moyenne du taux de bmi")
+        plt.show()
+        return 0
+
+    #diagramme à barre moyenne heartRate en fonct malades, non
+    def heartRate_malade_histogram(self):
+        malades = self.tab['TenYearCHD']
+        heartRate = self.tab['heartRate']
+
+        malades_0 = [self.tab['heartRate'][int(i)] for i, malade in enumerate(self.tab['TenYearCHD']) if malade == 0]
+
+        malades_1 = [self.tab['heartRate'][int(i)] for i, malade in enumerate(self.tab['TenYearCHD']) if malade == 1]
+
+        avg_heartRate_0 = np.mean(malades_0)  # Moyenne du taux de cholestérol pour les non-malades
+        avg_heartRate_1 = np.mean(malades_1)  # Moyenne du taux de cholestérol pour les malades
+
+        
+        heartRate_all = pd.Series(heartRate)
+        avg_heartRate = heartRate_all.mean()
+
+        plt.figure(figsize=(10, 7))
+        plt.bar([0, 1, 2], [avg_heartRate_0, avg_heartRate_1, avg_heartRate], color=['b', 'r', 'y'])
+        plt.xticks([0, 1, 2], ['Non-malades', 'Malades', 'everybody'])
+        plt.title("Moyenne du taux de heartRate selon la catégorie malade ou non")
+        plt.xlabel("10 year risk of coronary heart disease")
+        plt.ylabel("Moyenne du taux de heartRate")
+        plt.show()
+        return 0
+
+
+
+    #histogramme avec toutes les colonnes
     def stats_hist(self):
 
         tab = self.tab
