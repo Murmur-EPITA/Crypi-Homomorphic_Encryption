@@ -23,7 +23,7 @@ docker-compose
 
 ### To know
 
-Tenseal pip package is not available on Alpine, so containers are Ubuntu based.
+Tenseal pip package is not available on Alpine, so containers are Ubuntu based (x11 bigger...).  
 Both containers are in 192.168.125.0/29 subnet.  
 Server is 192.168.125.2 and client is 192.168.125.3.  
 192.168.125.1 is reserved for the host's virtual bridge network interface used to manage

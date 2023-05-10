@@ -1,5 +1,7 @@
 # 
 volumes/
+data/client/*
+data/server/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

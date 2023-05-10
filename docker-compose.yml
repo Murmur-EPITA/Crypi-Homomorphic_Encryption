@@ -9,6 +9,7 @@ services:
       - "30000-30009:30000-30009"
     volumes:
       - ./data/server:/data
+      - ./src:/python_src:ro
     networks:
       ftp-net:
         ipv4_address: 192.168.125.2
@@ -18,10 +19,10 @@ services:
     build: ./docker_client
     volumes:
       - ./data/client:/data
+      - ./src:/python_src:ro
     networks:
       ftp-net:
         ipv4_address: 192.168.125.3
-    command: tail -f /dev/null
 
 networks:
   ftp-net:

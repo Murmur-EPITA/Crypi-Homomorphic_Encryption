@@ -218,8 +218,6 @@ class PersonList:
 
         return 0
 
-
-    
     @classmethod
     def from_csv(cls, csvPath: str):
         '''

@@ -3,84 +3,11 @@
 import csv
 import base64
 import tenseal as ts
-
-# Load the CSV file into memory
-context = None
-
-'''
-# Initialize a context and a plaintext encoderts
-context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=8192, coeff_mod_bit_sizes=[60, 40, 40, 60], encryption_type=ts.ENCRYPTION_TYPE.SYMMETRIC)
-
-context.generate_galois_keys()
-context.global_scale = 2**40
-
-# write context data
-with open('context_data.bin', 'wb') as f:
-    context_data = context.serialize(save_secret_key = True)
-    f.write(context_data)
+from os import makedirs
+from utils.Person import *
 
 
-# Load the data from file
-with open('context_data.bin', 'rb') as f:
-    bytes_data = f.read()
-
-context = ts.enc_context.Context.load(bytes_data)
-
-#Check Context
-print("Context ")
-print("Private Key exist  : " + str(context.has_secret_key()))
-print("Private Key Value : " + str(context.secret_key().data))
-
-
-# Encrypt the data
-enc_data_global = []
-enc_data_sick = []
-enc_data_health = []
-count = 0
-for row in data :
-    count += 1
-    enc_val_global = ts.ckks_vector(context, row)
-    # En bonne santé
-    if (row[-1] == 0):
-        enc_val_health = ts.ckks_vector(context, row)
-        enc_data_health.append(enc_val_health)
-    # Chance d'etre Malade
-    else :
-        enc_val_sick = ts.ckks_vector(context, row)
-        enc_data_sick.append(enc_val_sick)
-    # Toutes les données 
-    enc_data_global.append(enc_val_global)
-
-
-
-
-# Compute the mean of the age and height columns
-final_vec_global = ts.ckks_vector(context, [0] * len(data[0]))
-final_vec_sick = ts.ckks_vector(context, [0] * len(data[0]))
-final_vec_health = ts.ckks_vector(context, [0] * len(data[0]))
-
-for enc_row in enc_data_global:
-   final_vec_global += enc_row
-for enc_row in enc_data_sick:
-   final_vec_sick += enc_row
-for enc_row in enc_data_health:
-   final_vec_health += enc_row
-
-
-
-
-final_vec_global *= 1/len(enc_data_global)
-final_vec_sick *= 1/len(enc_data_sick)
-final_vec_health *= 1/len(enc_data_health)
-
-
-#Decrypt the results
-print("Final All: ", final_vec_global.decrypt())
-print("Final Sick: ", final_vec_sick.decrypt())
-print("Final Health: ", final_vec_health.decrypt())
-'''
-
-def enc_persons(personList) :
+def enc_persons(personList, context):
     persons = personList.to_list()
     enc_personList = []
     for row in persons :
@@ -88,22 +15,25 @@ def enc_persons(personList) :
         enc_personList.append(enc_person)
     return enc_personList
 
-def init_context(privkeyPath=None, publickeyPath=None) :
+def init_context(privkeyPath=None, publickeyPath=None):
     # Create key files
     if (not privkeyPath) or (not publickeyPath):
         # Initialize a context
-        context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=8192, coeff_mod_bit_sizes=[6, 40, 40, 60], encryption_type=ts.ENCRYPTION_TYPE.SYMMETRIC)
+        context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=4096, coeff_mod_bit_sizes=[40, 20, 40], encryption_type=ts.ENCRYPTION_TYPE.SYMMETRIC)
 
         context.generate_galois_keys()
-        context.global_scale = 2**40
+        context.global_scale = 2**20
+
+        keysPath = "/data/keys"
+        makedirs(keysPath, exist_ok=True)
 
         # write private context data
-        with open('./data/keys/privContext.bin', 'wb') as f:
+        with open(keysPath+'/privContext.bin', 'wb') as f:
             context_data = context.serialize(save_secret_key = True)
             f.write(context_data)
 
-        # write public context data
-        with open('./data/keys/pubContext.bin', 'wb') as f:
+        # write public context data, N.B.: this filename is also used in docker_server shell script
+        with open(keysPath+'/pubContext.bin', 'wb') as f:
             context_data = context.serialize(save_secret_key = False)
             f.write(context_data)
     else :
@@ -114,12 +44,25 @@ def init_context(privkeyPath=None, publickeyPath=None) :
     return context
 
 
-def write_persons(personList, filename) :
+def write_persons(personList, context, filename):
     # Encrypt person list
-    enc_personlist = enc_persons(personList)
+    enc_personlist = enc_persons(personList, context)
+
+    cipherPath = "/data/cipher/"
+    makedirs(cipherPath, exist_ok=True)
 
     # Encoding encrypt vector to add a separator in file
-    with open("./data/cipher/" + filename + ".b64", 'wb') as f:
+    with open(cipherPath + filename + ".b64", 'wb') as f:
         for enc_person in enc_personlist:
             b64_person = base64.b64encode(enc_person.serialize())
             f.write(b64_person + b"\n")
+
+if __name__ == '__main__':
+    # Used to create context files (public one will be for the server to compute stats on ciphered data, private to decrypt the result on client)
+    context = init_context()
+
+    # We are in the client container, load PersonList
+    complete, sick, healthy = PersonList.from_csv("/data/framingham_heart_disease_raw.csv")
+
+    # Encrypt data in a file that will be sent to server. If you change filename, change it in docker_server shell script also
+    write_persons(complete, context, filename='enc_data')

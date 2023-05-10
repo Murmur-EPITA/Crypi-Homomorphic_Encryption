@@ -9,30 +9,22 @@ def load_context(filepath):
         context = ts.enc_context.Context.load(context_data)
     return context
 
-
 def read_file(filename, context):
-    with open('./data/results/' + filename, 'rb') as f:
+    with open('/data/results' + filename, 'rb') as f:
         vec_data = f.read()
         vec_bytes = base64.b64decode(vec_data)
         enc_vec = ts.tensors.ckksvector.CKKSVector.load(context, vec_bytes)
     return enc_vec
-
-
         
 def main(arg1, arg2):
     context = load_context(arg1)
-    enc_vec = read_file(arg2, arg1)
-
-    print(enc_vec.decrypt())
-
-    return
-
+    enc_vec = read_file(arg2, context)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('arg1', help='Path of the private context')
     parser.add_argument('arg2', help='''Name of the file send to the server
-    previously. Ex if your file was in ../../Doc/file.b64 the Name is :
+    previously. E.g. if your file was in ../../Doc/file.b64 the Name is :
     file.b64''')
     args = parser.parse_args()
 
