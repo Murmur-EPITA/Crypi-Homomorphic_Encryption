@@ -20,6 +20,7 @@ enc_v2 = ts.ckks_vector(context, v2)
 
 result = enc_v1 + enc_v2
 res1 = result.decrypt() # [4, 4, 4 ,4]
+print("shape : " + str(result.shape))
 
 for val in res1 :
     print(val)
