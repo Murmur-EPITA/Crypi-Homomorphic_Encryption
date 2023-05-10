@@ -1,6 +1,5 @@
 FROM ubuntu
 
-COPY run_vsftpd_and_check_if_files.sh /
 COPY requirements.txt /
 
 RUN apt-get update && \
@@ -9,6 +8,7 @@ RUN apt-get update && \
             apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY vsftpd.conf /etc/vsftpd.conf
+COPY run_vsftpd_and_check_if_files.sh /
 
 EXPOSE 20 21 21100-21110
 

@@ -32,10 +32,10 @@ else
 fi
 
 # Start the containers.
-docker-compose up -d
+docker-compose up -d --build
 
 # Encrypt data on client
-echo "Encrypting data in client container..."
+echo "\nEncrypting data in client container..."
 docker exec $FTP_CLIENT_CONTAINER python3 /python_src/client_init.py
 echo "OK"
 
@@ -54,11 +54,13 @@ echo "Waiting for the server to compute statistics on encrypted data..."
 computationIsOver=false
 while ! $computationIsOver
 do
+    echo "wait"
     docker exec $FTP_SERVER_CONTAINER test -f "$SERVERRESULTFILEPATH"
     if [ $? -eq 0 ]; then
         computationIsOver=true
         echo "OK"
     fi
+    echo "wait"
     sleep 2
 done
 # Client can get the results file
